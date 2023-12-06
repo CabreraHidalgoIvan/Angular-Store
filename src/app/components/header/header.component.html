@@ -1,0 +1,44 @@
+<mat-toolbar class="max-w-7x1 mx-auto border-x justify-between">
+    <a routerLink="home">Menu BarBytesBot</a>
+    <!-- Enlazamos el icono del carrito con un botón que abre un menú desplegable (matMenuTriggerFor="menu")-->
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+        <!--  Para añadir notificaciones (Más adelante serán dinámicas) -->
+        <mat-icon [matBadge]="itemsQuantity" [matBadgeDisabled]="!itemsQuantity"
+            matBadgeColor="warn">shopping_cart</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <div class="p-3 divide-y divide-solid">
+            <div class="pb-3 flex justify-between">
+                <span class="mr-16">{{ itemsQuantity }} Items</span>
+                <a routerLink="cart">View Cart</a>
+            </div>
+
+            <div *ngIf="cart.items.length" class="py-3">
+                <!-- Productos (Más adelante serán dinámicos) -->
+                <div *ngFor="let item of cart.items" class="flex justify-between font-light mb-2">
+                    {{ item.name }} x {{ item.quantity }}
+                    <span class="font-bold">{{ item.price| currency}}</span>
+                </div>
+            </div>
+
+            <div>
+                <!-- Precio total -->
+                <div class="flex justify-between py-3 font-light">
+                    Total:
+                    <span class="font-bold">{{ getTotal(cart.items) | currency}}</span>
+                </div>
+
+                <!-- Botones -->
+                <div class="pt-3 flex justify-between">
+                    <button (click)="onClearCart()" class="bg-rose-600 text-white rounded-full w-9 h-9">
+                        <mat-icon>remove_shopping_cart</mat-icon>
+                    </button>
+                    <button routerLink="cart" class="bg-green-600 text-white rounded-full w-9 h-9">
+                        <mat-icon>shopping_cart</mat-icon>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </mat-menu>
+</mat-toolbar>
